@@ -92,7 +92,8 @@
        ============================================================ */
     .smartphone-wrapper {
       width: 100%;
-      max-width: 430px;          /* lebar standar smartphone modern */
+      max-width: 430px;
+      /* lebar standar smartphone modern */
       min-height: 100vh;
       height: 100vh;
       background-color: var(--c-bg-app);
@@ -110,17 +111,21 @@
         background-color: var(--c-bg-outside);
         background-image: radial-gradient(#B7D2DC 1px, transparent 1px);
         background-size: 24px 24px;
-        padding: 20px 0;           /* margin atas-bawah agar card tidak nempel pinggir */
+        padding: 20px 0;
+        /* margin atas-bawah agar card tidak nempel pinggir */
         align-items: flex-start;
-        overflow-y: auto;          /* page bisa scroll jika layar terlalu pendek */
+        overflow-y: auto;
+        /* page bisa scroll jika layar terlalu pendek */
       }
 
       .smartphone-wrapper {
-        width: 430px;              /* lebar tetap seukuran HP */
+        width: 430px;
+        /* lebar tetap seukuran HP */
         height: auto;
         min-height: calc(100vh - 40px);
         max-height: none;
-        border-radius: 24px;       /* sudut melengkung halus ala bingkai HP */
+        border-radius: 24px;
+        /* sudut melengkung halus ala bingkai HP */
         box-shadow:
           0 24px 60px rgba(0, 0, 0, 0.22),
           0 0 0 1px rgba(107, 140, 154, 0.18);
@@ -133,16 +138,20 @@
     @media (max-width: 480px) {
       body {
         padding: 0;
-        background: var(--c-bg-app); /* tidak ada dotted background */
-        overflow: hidden;            /* biarkan app-content yang scroll */
+        background: var(--c-bg-app);
+        /* tidak ada dotted background */
+        overflow: hidden;
+        /* biarkan app-content yang scroll */
       }
 
       .smartphone-wrapper {
-        max-width: 100%;            /* memenuhi seluruh lebar layar HP */
+        max-width: 100%;
+        /* memenuhi seluruh lebar layar HP */
         width: 100%;
         height: 100vh;
         min-height: 100vh;
-        border-radius: 0;           /* tidak ada sudut melengkung di HP nyata */
+        border-radius: 0;
+        /* tidak ada sudut melengkung di HP nyata */
         box-shadow: none;
         margin: 0;
       }
