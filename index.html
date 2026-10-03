@@ -115,7 +115,7 @@
         height: min(850px, calc(100vh - 48px));
         border-radius: 44px;
         border: 8px solid #1a2e3b;
-        box-shadow: 0 40px 80px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.06);
+        box-shadow: 0 40px 80px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.06);
         overflow: hidden;
         flex-shrink: 0;
       }
@@ -151,7 +151,8 @@
       align-items: center;
       position: relative;
       z-index: 40;
-      flex-shrink: 0;   /* KUNCI: tidak menyusut, tetap di atas scroll container */
+      flex-shrink: 0;
+      /* KUNCI: tidak menyusut, tetap di atas scroll container */
     }
 
     .brand-group {
@@ -226,7 +227,8 @@
     /* KONTEN AREA APLIKASI — satu-satunya area scroll di dalam wrapper */
     .app-content {
       flex: 1;
-      min-height: 0;        /* penting untuk flexbox scroll trick */
+      min-height: 0;
+      /* penting untuk flexbox scroll trick */
       overflow-y: auto;
       overflow-x: hidden;
       padding: 16px 16px 100px 16px;
@@ -235,6 +237,7 @@
       /* Sembunyikan scrollbar visual tapi tetap bisa scroll */
       scrollbar-width: none;
     }
+
     .app-content::-webkit-scrollbar {
       display: none;
     }
@@ -2799,7 +2802,8 @@
               <div class="hero-title" style="font-size: 15px; font-weight: 800; color: #ffffff; letter-spacing: 0.2px;">
                 Ringkasan Tugas Anda
               </div>
-              <div class="hero-sub" id="taskHeroSubtitle" style="font-size: 11px; color: rgba(255, 255, 255, 0.92); margin-top: 2px;">
+              <div class="hero-sub" id="taskHeroSubtitle"
+                style="font-size: 11px; color: rgba(255, 255, 255, 0.92); margin-top: 2px;">
                 Pantau progres dan penyelesaian target belajarmu
               </div>
             </div>
@@ -2812,20 +2816,28 @@
           <!-- KOTAK METRIK STATISTIK DINAMIS: AKTIF & SELESAI -->
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px;">
             <!-- KARTU TUGAS AKTIF -->
-            <div style="background: rgba(255, 255, 255, 0.18); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: var(--radius-md); padding: 8px 12px; display: flex; align-items: center; gap: 10px; backdrop-filter: blur(4px);">
+            <div
+              style="background: rgba(255, 255, 255, 0.18); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: var(--radius-md); padding: 8px 12px; display: flex; align-items: center; gap: 10px; backdrop-filter: blur(4px);">
               <span style="font-size: 20px;">⏳</span>
               <div>
-                <div style="font-size: 10px; color: rgba(255, 255, 255, 0.88); font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px;">Tugas Aktif</div>
-                <div style="font-size: 18px; font-weight: 800; color: #ffffff; line-height: 1.1;" id="taskHeroActiveCount">0</div>
+                <div
+                  style="font-size: 10px; color: rgba(255, 255, 255, 0.88); font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px;">
+                  Tugas Aktif</div>
+                <div style="font-size: 18px; font-weight: 800; color: #ffffff; line-height: 1.1;"
+                  id="taskHeroActiveCount">0</div>
               </div>
             </div>
 
             <!-- KARTU TUGAS SELESAI -->
-            <div style="background: rgba(255, 255, 255, 0.18); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: var(--radius-md); padding: 8px 12px; display: flex; align-items: center; gap: 10px; backdrop-filter: blur(4px);">
+            <div
+              style="background: rgba(255, 255, 255, 0.18); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: var(--radius-md); padding: 8px 12px; display: flex; align-items: center; gap: 10px; backdrop-filter: blur(4px);">
               <span style="font-size: 20px;">✅</span>
               <div>
-                <div style="font-size: 10px; color: rgba(255, 255, 255, 0.88); font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px;">Tugas Selesai</div>
-                <div style="font-size: 18px; font-weight: 800; color: #ffffff; line-height: 1.1;" id="taskHeroCompletedCount">0</div>
+                <div
+                  style="font-size: 10px; color: rgba(255, 255, 255, 0.88); font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px;">
+                  Tugas Selesai</div>
+                <div style="font-size: 18px; font-weight: 800; color: #ffffff; line-height: 1.1;"
+                  id="taskHeroCompletedCount">0</div>
               </div>
             </div>
           </div>
@@ -2834,7 +2846,8 @@
           <div class="progress-bar-wrap">
             <div class="progress-bar-fill" id="taskProgressBar" style="width: 0%;"></div>
           </div>
-          <div class="progress-text" style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px;">
+          <div class="progress-text"
+            style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px;">
             <span id="taskProgressLabel">0 dari 0 selesai</span>
             <span id="taskPercentLabel" style="font-size: 12px; font-weight: 800;">0%</span>
           </div>
@@ -3265,7 +3278,8 @@
                   style="width: 32px; height: 32px; padding: 0; font-weight: 800; border-radius: var(--radius-sm);">-</button>
                 <input type="number" id="settingNumMcq" min="0" max="50" value="5" class="input-text"
                   style="text-align: center; font-weight: 800; font-size: 15px; padding: 6px;"
-                  title="Ketik jumlah soal pilihan ganda (0-50). Isi 0 untuk tidak membuat soal PG." onclick="this.select()">
+                  title="Ketik jumlah soal pilihan ganda (0-50). Isi 0 untuk tidak membuat soal PG."
+                  onclick="this.select()">
                 <button type="button" class="btn btn-outline" onclick="adjustQuizCount('settingNumMcq', 1)"
                   style="width: 32px; height: 32px; padding: 0; font-weight: 800; border-radius: var(--radius-sm);">+</button>
               </div>
@@ -3646,7 +3660,8 @@
       <div class="modal-drag-pill"></div>
 
       <!-- HEADER MODAL KELOLA DECK -->
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--c-border); flex-shrink: 0;">
+      <div
+        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--c-border); flex-shrink: 0;">
         <div style="display: flex; align-items: center; gap: 8px;">
           <span style="font-size: 18px;">🗂️</span>
           <div>
@@ -3665,7 +3680,8 @@
         <div id="fcFormContainer"
           style="background: linear-gradient(135deg, rgba(183, 210, 220, 0.12), rgba(185, 166, 222, 0.12)); border: 1.5px solid var(--c-border); border-radius: var(--radius-md); padding: 12px 14px; margin-bottom: 16px;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-            <span style="font-size: 12.5px; font-weight: 800; color: var(--c-slate-deep);" id="fcFormHeading">➕ Tambah Kartu Baru</span>
+            <span style="font-size: 12.5px; font-weight: 800; color: var(--c-slate-deep);" id="fcFormHeading">➕ Tambah
+              Kartu Baru</span>
             <button type="button" id="fcCancelEditBtn" onclick="cancelEditFlashcard()"
               style="display: none; background: none; border: none; color: #dc2626; font-size: 11px; font-weight: 700; cursor: pointer; padding: 2px 6px;">
               Batal Edit ✕
@@ -3676,29 +3692,35 @@
             <input type="hidden" id="fcEditCardId" value="">
 
             <div class="form-group" style="margin-bottom: 10px;">
-              <label class="form-label" style="font-size: 11px; font-weight: 700; color: var(--c-slate-deep); margin-bottom: 4px; display: block;">
+              <label class="form-label"
+                style="font-size: 11px; font-weight: 700; color: var(--c-slate-deep); margin-bottom: 4px; display: block;">
                 Sisi Depan (Pertanyaan / Konsep / Istilah)
               </label>
-              <textarea id="fcManageFront" class="textarea-custom" rows="2"
-                placeholder="Contoh: Apa itu Mitokondria?" required style="font-size: 12.5px;"></textarea>
+              <textarea id="fcManageFront" class="textarea-custom" rows="2" placeholder="Contoh: Apa itu Mitokondria?"
+                required style="font-size: 12.5px;"></textarea>
             </div>
 
             <div class="form-group" style="margin-bottom: 10px;">
-              <label class="form-label" style="font-size: 11px; font-weight: 700; color: var(--c-slate-deep); margin-bottom: 4px; display: block;">
+              <label class="form-label"
+                style="font-size: 11px; font-weight: 700; color: var(--c-slate-deep); margin-bottom: 4px; display: block;">
                 Sisi Belakang (Kunci Jawaban / Penjelasan)
               </label>
               <textarea id="fcManageBack" class="textarea-custom" rows="2"
-                placeholder="Contoh: Organel sel yang memproduksi energi (ATP)." required style="font-size: 12.5px;"></textarea>
+                placeholder="Contoh: Organel sel yang memproduksi energi (ATP)." required
+                style="font-size: 12.5px;"></textarea>
             </div>
 
             <div class="form-group" style="margin-bottom: 12px;">
-              <label class="form-label" style="font-size: 11px; font-weight: 700; color: var(--c-slate-deep); margin-bottom: 4px; display: block;">
+              <label class="form-label"
+                style="font-size: 11px; font-weight: 700; color: var(--c-slate-deep); margin-bottom: 4px; display: block;">
                 Topik / Kategori (Opsional)
               </label>
-              <input type="text" id="fcManageTopic" class="input-text" placeholder="Contoh: Biologi" value="Umum" style="font-size: 12px; padding: 7px 10px;">
+              <input type="text" id="fcManageTopic" class="input-text" placeholder="Contoh: Biologi" value="Umum"
+                style="font-size: 12px; padding: 7px 10px;">
             </div>
 
-            <button type="submit" id="fcSubmitBtn" class="btn btn-primary btn-full" style="padding: 9px 12px; font-size: 12.5px; font-weight: 700;">
+            <button type="submit" id="fcSubmitBtn" class="btn btn-primary btn-full"
+              style="padding: 9px 12px; font-size: 12.5px; font-weight: 700;">
               ➕ Simpan Kartu ke Deck
             </button>
           </form>
@@ -3706,7 +3728,8 @@
 
         <!-- HEADER DAFTAR KARTU DALAM DECK -->
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-          <span style="font-size: 12px; font-weight: 800; color: var(--c-slate-deep); text-transform: uppercase; letter-spacing: 0.3px;">
+          <span
+            style="font-size: 12px; font-weight: 800; color: var(--c-slate-deep); text-transform: uppercase; letter-spacing: 0.3px;">
             Daftar Kartu dalam Deck
           </span>
           <button type="button" id="fcClearAllBtn" onclick="clearAllFlashcards()" class="btn btn-secondary btn-sm"
@@ -3723,7 +3746,8 @@
       </div>
 
       <!-- FOOTER MODAL -->
-      <div style="margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--c-border); display: flex; gap: 8px; flex-shrink: 0;">
+      <div
+        style="margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--c-border); display: flex; gap: 8px; flex-shrink: 0;">
         <button type="button" class="btn btn-secondary btn-full" onclick="closeFlashcardDeckModal()">
           Tutup
         </button>
@@ -5878,9 +5902,9 @@ Hukum III Newton adalah Hukum Aksi-Reaksi (F_aksi = -F_reaksi). Ketika benda per
       }
 
       // Parsing aman: gunakan null-check eksplisit agar nilai 0 tidak dianggap falsy
-      const mcqRaw  = parseInt(document.getElementById('settingNumMcq').value,   10);
+      const mcqRaw = parseInt(document.getElementById('settingNumMcq').value, 10);
       const essayRaw = parseInt(document.getElementById('settingNumEssay').value, 10);
-      const numMcq   = Math.min(50, Math.max(0, isNaN(mcqRaw)   ? 5 : mcqRaw));
+      const numMcq = Math.min(50, Math.max(0, isNaN(mcqRaw) ? 5 : mcqRaw));
       const numEssay = Math.min(20, Math.max(0, isNaN(essayRaw) ? 3 : essayRaw));
 
       // Validasi: minimal satu jenis soal harus > 0
@@ -5889,8 +5913,8 @@ Hukum III Newton adalah Hukum Aksi-Reaksi (F_aksi = -F_reaksi). Ketika benda per
         return;
       }
 
-      const pgLabel    = numMcq   > 0 ? `${numMcq} PG`       : 'tanpa PG';
-      const essayLabel = numEssay > 0 ? `${numEssay} Essay`  : 'tanpa Essay';
+      const pgLabel = numMcq > 0 ? `${numMcq} PG` : 'tanpa PG';
+      const essayLabel = numEssay > 0 ? `${numEssay} Essay` : 'tanpa Essay';
       showLoading(true, 'Menyusun Soal & Pembahasan...', `Merumuskan ${pgLabel} & ${essayLabel} — level ${selectedQuizDifficulty.toUpperCase()}...`);
 
       setTimeout(() => {
