@@ -79,27 +79,26 @@
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background-color: var(--c-bg-outside);
       color: var(--c-text-main);
-      min-height: 100vh;
+      height: 100vh;
+      overflow: hidden;
       display: flex;
       justify-content: center;
       align-items: flex-start;
       margin: 0;
       padding: 0;
-      overflow-x: hidden;
     }
 
     .smartphone-wrapper {
       width: 100%;
-      max-width: 1024px;
-      /* Membatasi lebar agar konten kuis/tugas tetap proporsional & rapi */
-      min-height: 100vh;
+      max-width: 420px;
+      height: 100vh;
       background-color: var(--c-bg-app);
       display: flex;
       flex-direction: column;
       position: relative;
-      overflow-x: hidden;
+      overflow: hidden;
       margin: 0 auto;
-      padding: 0 16px;
+      padding: 0;
     }
 
     @media (min-width: 640px) {
@@ -108,14 +107,17 @@
         background-color: var(--c-bg-outside);
         background-image: radial-gradient(#B7D2DC 1px, transparent 1px);
         background-size: 24px 24px;
+        align-items: center;
       }
 
       .smartphone-wrapper {
-        min-height: calc(100vh - 48px);
-        max-height: 920px;
-        border-radius: 40px;
-        border: 7px solid #233541;
+        width: 420px;
+        height: min(850px, calc(100vh - 48px));
+        border-radius: 44px;
+        border: 8px solid #1a2e3b;
+        box-shadow: 0 40px 80px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.06);
         overflow: hidden;
+        flex-shrink: 0;
       }
     }
 
@@ -147,9 +149,9 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      position: sticky;
-      top: 0;
+      position: relative;
       z-index: 40;
+      flex-shrink: 0;   /* KUNCI: tidak menyusut, tetap di atas scroll container */
     }
 
     .brand-group {
@@ -221,13 +223,20 @@
       background: var(--c-powder);
     }
 
-    /* KONTEN AREA APLIKASI */
+    /* KONTEN AREA APLIKASI — satu-satunya area scroll di dalam wrapper */
     .app-content {
       flex: 1;
+      min-height: 0;        /* penting untuk flexbox scroll trick */
       overflow-y: auto;
+      overflow-x: hidden;
       padding: 16px 16px 100px 16px;
       -webkit-overflow-scrolling: touch;
       position: relative;
+      /* Sembunyikan scrollbar visual tapi tetap bisa scroll */
+      scrollbar-width: none;
+    }
+    .app-content::-webkit-scrollbar {
+      display: none;
     }
 
     /* SISTEM TAB SWITCHING */
@@ -478,78 +487,58 @@
        TAB 1: TUGAS (TASK MANAGER)
        ======================================================== */
     .task-hero {
-      background: #4A3AFF;
-      color: var(--c-white);
+      background: linear-gradient(135deg, #FF5E3A 0%, #FF7F50 35%, #FFA07A 70%, #FEB47B 100%);
+      color: #FFFFFF;
       border-radius: var(--radius-xl);
-      padding: 18px;
+      padding: 16px 18px;
       margin-bottom: 16px;
       position: relative;
       overflow: hidden;
-      box-shadow: 0 10px 24px rgba(74, 58, 255, 0.28);
-      border: 1.5px solid transparent;
-      transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-        color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-        border-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-        box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 12px 30px rgba(255, 94, 58, 0.28);
+      border: 1.5px solid rgba(255, 255, 255, 0.35);
+      transition: all 0.3s ease;
     }
 
     .task-hero::after {
       content: '';
       position: absolute;
-      width: 140px;
-      height: 140px;
-      background: radial-gradient(circle, rgba(255, 255, 255, 0.18) 0%, transparent 70%);
-      top: -40px;
-      right: -30px;
+      width: 150px;
+      height: 150px;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.24) 0%, transparent 70%);
+      top: -45px;
+      right: -35px;
       border-radius: 50%;
       pointer-events: none;
-      transition: opacity 0.5s ease;
     }
 
-    /* Mode Istirahat Sunset Chill (Trigger: Selesai >= 5 tugas) */
-    .task-hero.hero-rest-mode {
-      background: linear-gradient(135deg, #FF5E3A 0%, #FF7F50 35%, #FFA07A 70%, #FEB47B 100%) !important;
-      color: #FFFFFF !important;
-      border-color: rgba(255, 255, 255, 0.4) !important;
-      box-shadow: 0 14px 32px rgba(255, 94, 58, 0.38) !important;
-    }
-
-    .task-hero.hero-rest-mode::after {
-      background: radial-gradient(circle, rgba(255, 245, 220, 0.35) 0%, transparent 70%) !important;
-    }
-
-    .task-hero.hero-rest-mode .hero-title {
-      color: #FFFFFF !important;
-      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
-    }
-
-    .task-hero.hero-rest-mode .hero-sub {
-      color: #FFF7ED !important;
-      font-weight: 600;
-      opacity: 0.98;
-      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
-    }
-
-    .task-hero.hero-rest-mode .progress-bar-wrap {
-      background: rgba(255, 255, 255, 0.28);
-    }
-
-    .task-hero.hero-rest-mode .progress-bar-fill {
-      background: #FFFFFF;
-      box-shadow: 0 0 12px rgba(255, 255, 255, 0.7);
-    }
-
-    .task-hero.hero-rest-mode .progress-text {
-      color: #FFFFFF !important;
-      font-weight: 700;
-      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
-    }
-
-    .task-hero.hero-rest-mode .rest-indicator-tag {
-      background: rgba(255, 255, 255, 0.22);
+    .task-hero .hero-title {
       color: #FFFFFF;
-      border-color: rgba(255, 255, 255, 0.45);
-      backdrop-filter: blur(8px);
+      font-weight: 800;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    }
+
+    .task-hero .hero-sub {
+      color: rgba(255, 255, 255, 0.92);
+      font-weight: 600;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .task-hero .progress-bar-wrap {
+      background: rgba(255, 255, 255, 0.28);
+      height: 7px;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .task-hero .progress-bar-fill {
+      background: #FFFFFF;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.75);
+    }
+
+    .task-hero .progress-text {
+      color: #FFFFFF;
+      font-weight: 700;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
     }
 
     .hero-title {
@@ -2757,24 +2746,6 @@
   <!-- KONTEN HP TUNGGAL MOBILE-FIRST -->
   <div class="smartphone-wrapper">
 
-    <!-- STATUS BAR HP SIMULASI -->
-    <div class="mobile-status-bar">
-      <span id="statusBarTime">09:15</span>
-      <div class="status-icons">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-          <path
-            d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L4.35 18.9c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l1.29-1.29C8.6 19.98 10.23 21 12 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm0 16c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z" />
-        </svg>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 4C7.31 4 3.07 5.9 0 8.98L12 21 24 8.98C20.93 5.9 16.69 4 12 4z" />
-        </svg>
-        <svg width="18" height="12" viewBox="0 0 24 14" fill="currentColor">
-          <rect x="1" y="1" width="19" height="12" rx="3" stroke="currentColor" stroke-width="2" fill="none" />
-          <rect x="3" y="3" width="12" height="8" rx="1.5" />
-          <rect x="21" y="4" width="2" height="6" rx="1" />
-        </svg>
-      </div>
-    </div>
 
     <!-- APP HEADER -->
     <header class="app-header">
@@ -2822,21 +2793,50 @@
       <section id="tab-tugas" class="tab-view active">
         <!-- HERO STATISTIK TUGAS -->
         <div class="task-hero" id="taskHeroCard">
-          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2px;">
-            <div style="flex: 1;">
-              <div class="hero-title">Rencana Hari Ini</div>
-              <div class="hero-sub" id="taskMotivationText">Kamu sudah menyelesaikan 3 tugas luar biasa!</div>
+          <!-- HEADER BANNER: JUDUL & BADGE -->
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
+            <div>
+              <div class="hero-title" style="font-size: 15px; font-weight: 800; color: #ffffff; letter-spacing: 0.2px;">
+                Ringkasan Tugas Anda
+              </div>
+              <div class="hero-sub" id="taskHeroSubtitle" style="font-size: 11px; color: rgba(255, 255, 255, 0.92); margin-top: 2px;">
+                Pantau progres dan penyelesaian target belajarmu
+              </div>
             </div>
-            <div id="restModeBadge" style="display: none; margin-left: 8px; flex-shrink: 0;">
-              <span class="rest-indicator-tag">🌅 Sunset Chill</span>
+            <div id="taskHeroStatusBadge"
+              style="padding: 4px 10px; background: rgba(255, 255, 255, 0.22); border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 20px; font-size: 10.5px; font-weight: 800; color: #ffffff; backdrop-filter: blur(6px); flex-shrink: 0;">
+              0 Tugas
             </div>
           </div>
+
+          <!-- KOTAK METRIK STATISTIK DINAMIS: AKTIF & SELESAI -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px;">
+            <!-- KARTU TUGAS AKTIF -->
+            <div style="background: rgba(255, 255, 255, 0.18); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: var(--radius-md); padding: 8px 12px; display: flex; align-items: center; gap: 10px; backdrop-filter: blur(4px);">
+              <span style="font-size: 20px;">⏳</span>
+              <div>
+                <div style="font-size: 10px; color: rgba(255, 255, 255, 0.88); font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px;">Tugas Aktif</div>
+                <div style="font-size: 18px; font-weight: 800; color: #ffffff; line-height: 1.1;" id="taskHeroActiveCount">0</div>
+              </div>
+            </div>
+
+            <!-- KARTU TUGAS SELESAI -->
+            <div style="background: rgba(255, 255, 255, 0.18); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: var(--radius-md); padding: 8px 12px; display: flex; align-items: center; gap: 10px; backdrop-filter: blur(4px);">
+              <span style="font-size: 20px;">✅</span>
+              <div>
+                <div style="font-size: 10px; color: rgba(255, 255, 255, 0.88); font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px;">Tugas Selesai</div>
+                <div style="font-size: 18px; font-weight: 800; color: #ffffff; line-height: 1.1;" id="taskHeroCompletedCount">0</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PROGRESS BAR & PERSENTASE -->
           <div class="progress-bar-wrap">
-            <div class="progress-bar-fill" id="taskProgressBar"></div>
+            <div class="progress-bar-fill" id="taskProgressBar" style="width: 0%;"></div>
           </div>
-          <div class="progress-text">
+          <div class="progress-text" style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px;">
             <span id="taskProgressLabel">0 dari 0 selesai</span>
-            <span id="taskPercentLabel">0%</span>
+            <span id="taskPercentLabel" style="font-size: 12px; font-weight: 800;">0%</span>
           </div>
         </div>
 
@@ -2917,12 +2917,12 @@
                 <div>
                   <input type="date" id="taskInputDeadline" class="input-text"
                     style="padding: 7px 8px; font-size: 11.5px; border-radius: var(--radius-md);"
-                    onchange="handleDeadlineInputChange()">
+                    onchange="handleDeadlineInputChange()" required>
                 </div>
                 <div>
                   <input type="time" id="taskInputTime" class="input-text" value="23:59"
                     style="padding: 7px 8px; font-size: 11.5px; border-radius: var(--radius-md);"
-                    title="Jam batas pengumpulan">
+                    title="Jam batas pengumpulan" required>
                 </div>
               </div>
             </div>
@@ -3263,9 +3263,9 @@
               <div style="display: flex; align-items: center; gap: 6px;">
                 <button type="button" class="btn btn-outline" onclick="adjustQuizCount('settingNumMcq', -1)"
                   style="width: 32px; height: 32px; padding: 0; font-weight: 800; border-radius: var(--radius-sm);">-</button>
-                <input type="number" id="settingNumMcq" min="1" max="50" value="5" class="input-text"
+                <input type="number" id="settingNumMcq" min="0" max="50" value="5" class="input-text"
                   style="text-align: center; font-weight: 800; font-size: 15px; padding: 6px;"
-                  title="Ketik jumlah soal pilihan ganda (1-50)" onclick="this.select()">
+                  title="Ketik jumlah soal pilihan ganda (0-50). Isi 0 untuk tidak membuat soal PG." onclick="this.select()">
                 <button type="button" class="btn btn-outline" onclick="adjustQuizCount('settingNumMcq', 1)"
                   style="width: 32px; height: 32px; padding: 0; font-weight: 800; border-radius: var(--radius-sm);">+</button>
               </div>
@@ -3424,13 +3424,22 @@
               onchange="handleDirectFlashcardPdfUpload(event)">
           </div>
 
-          <!-- TOMBOL AKSI DECK LAINNYA -->
-          <div style="display: flex; gap: 8px;">
-            <button class="btn btn-outline btn-sm" style="flex: 1;" onclick="openAddFlashcardModal()">
-              + Buat Manual
+          <!-- AREA KONTROL UTAMA TOMBOL FLASHCARD -->
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; margin-top: 10px;">
+            <button type="button" class="btn btn-outline btn-sm"
+              style="padding: 8px 4px; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 4px; white-space: nowrap;"
+              onclick="openFlashcardDeckModal(true)">
+              <span>➕</span> Buat Manual
             </button>
-            <button class="btn btn-secondary btn-sm" style="flex: 1;" onclick="shuffleFlashcards()">
-              🔀 Acak Kartu
+            <button type="button" class="btn btn-secondary btn-sm"
+              style="padding: 8px 4px; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 4px; white-space: nowrap;"
+              onclick="shuffleFlashcards()">
+              <span>🎲</span> Acak Kartu
+            </button>
+            <button type="button" class="btn btn-outline btn-sm"
+              style="padding: 8px 4px; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 4px; white-space: nowrap; background: #ffffff;"
+              onclick="openFlashcardDeckModal(false)">
+              <span>📁</span> Kelola Deck
             </button>
           </div>
         </div>
@@ -3440,11 +3449,11 @@
           style="background: var(--c-white); border-radius: var(--radius-md); padding: 12px 14px; border: 1px solid var(--c-border); margin-bottom: 14px;">
           <div
             style="display: flex; justify-content: space-between; font-size: 11.5px; font-weight: 700; margin-bottom: 6px; color: var(--c-slate-deep);">
-            <span>Kemajuan Hafalan: <span id="fcMemorizedCount">3</span> / <span id="fcTotalCount">8</span></span>
-            <span id="fcPercentText">37%</span>
+            <span>Kemajuan Hafalan: <span id="fcMemorizedCount">0</span> / <span id="fcTotalCount">0</span></span>
+            <span id="fcPercentText">0%</span>
           </div>
           <div class="progress-bar-wrap" style="margin-bottom: 0;">
-            <div class="progress-bar-fill" id="fcProgressBar" style="width: 37%;"></div>
+            <div class="progress-bar-fill" id="fcProgressBar" style="width: 0%;"></div>
           </div>
         </div>
 
@@ -3469,7 +3478,7 @@
               🔄 Ulangi Dari Awal
             </button>
             <button class="btn btn-outline btn-sm" onclick="shuffleFlashcards()">
-              🔀 Acak & Belajar Lagi
+              🎲 Acak & Belajar Lagi
             </button>
           </div>
         </div>
@@ -3535,7 +3544,7 @@
             ← Sebelumnya
           </button>
           <button class="btn btn-secondary btn-sm" onclick="shuffleFlashcards()">
-            🔀 Acak Kartu
+            🎲 Acak Kartu
           </button>
           <button class="btn btn-outline btn-sm" onclick="navFlashcard(1)">
             Berikutnya →
@@ -3543,7 +3552,7 @@
         </div>
 
         <!-- TOMBOL AKHIRI SESI FLASHCARD -->
-        <div id="fcEndSessionArea" style="margin-top: 12px;">
+        <div id="fcEndSessionArea" style="margin-top: 12px; display: flex; flex-direction: column; gap: 8px;">
           <button type="button" class="btn btn-sm" onclick="endFlashcardSession()"
             style="width: 100%; background: #ffffff; border: 1.5px solid var(--c-purple-muted); color: var(--c-purple-muted); font-weight: 700; border-radius: var(--radius-md); padding: 9px 12px; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: var(--shadow-sm); cursor: pointer; transition: var(--trans-spring);">
             <span style="font-size: 14px;">🏁</span> Akhiri Sesi Belajar Flashcard
@@ -3631,34 +3640,94 @@
   <!-- DEDICATED PRINTABLE QUIZ SHEET (HANYA MUNCUL SAAT CETAK KERTAS) -->
   <div id="printableQuizArea"></div>
 
-  <!-- MODAL TAMBAH FLASHCARD MANUAL -->
-  <div class="modal-backdrop" id="addFcModal">
-    <div class="modal-sheet">
+  <!-- MODAL KELOLA DECK FLASHCARD (MANAJEMEN KARTU, EDIT, HAPUS, & TAMBAH MANUAL) -->
+  <div class="modal-backdrop" id="fcDeckModal">
+    <div class="modal-sheet" style="max-height: 88vh; display: flex; flex-direction: column;">
       <div class="modal-drag-pill"></div>
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
-        <span style="font-size: 15px; font-weight: 800; color: var(--c-slate-deep);">Tambah Flashcard Baru</span>
-        <button onclick="closeAddFlashcardModal()"
-          style="background: none; border: none; font-size: 18px; cursor: pointer; color: var(--c-text-muted);">✕</button>
+
+      <!-- HEADER MODAL KELOLA DECK -->
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--c-border); flex-shrink: 0;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 18px;">🗂️</span>
+          <div>
+            <div style="font-size: 15px; font-weight: 800; color: var(--c-slate-deep);">Kelola Deck Flashcard</div>
+            <div style="font-size: 11px; color: var(--c-text-muted);" id="fcDeckModalSubtitle">Total: 0 Kartu</div>
+          </div>
+        </div>
+        <button type="button" onclick="closeFlashcardDeckModal()"
+          style="background: none; border: none; font-size: 20px; cursor: pointer; color: var(--c-text-muted); line-height: 1; padding: 4px;">✕</button>
       </div>
-      <form onsubmit="handleManualAddFlashcard(event)">
-        <div class="form-group">
-          <label class="form-label">Sisi Depan (Pertanyaan / Konsep / Istilah)</label>
-          <textarea id="manualFcFront" class="textarea-custom" rows="2"
-            placeholder="Contoh: Apa fungsi Klorofil pada tumbuhan?" required></textarea>
+
+      <!-- KONTEN SCROLLABLE -->
+      <div style="overflow-y: auto; flex: 1; padding-right: 2px;" id="fcDeckModalBody">
+
+        <!-- KOTAK FORM TAMBAH / EDIT KARTU MANUAL -->
+        <div id="fcFormContainer"
+          style="background: linear-gradient(135deg, rgba(183, 210, 220, 0.12), rgba(185, 166, 222, 0.12)); border: 1.5px solid var(--c-border); border-radius: var(--radius-md); padding: 12px 14px; margin-bottom: 16px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <span style="font-size: 12.5px; font-weight: 800; color: var(--c-slate-deep);" id="fcFormHeading">➕ Tambah Kartu Baru</span>
+            <button type="button" id="fcCancelEditBtn" onclick="cancelEditFlashcard()"
+              style="display: none; background: none; border: none; color: #dc2626; font-size: 11px; font-weight: 700; cursor: pointer; padding: 2px 6px;">
+              Batal Edit ✕
+            </button>
+          </div>
+
+          <form id="fcManageForm" onsubmit="handleSaveFlashcard(event)">
+            <input type="hidden" id="fcEditCardId" value="">
+
+            <div class="form-group" style="margin-bottom: 10px;">
+              <label class="form-label" style="font-size: 11px; font-weight: 700; color: var(--c-slate-deep); margin-bottom: 4px; display: block;">
+                Sisi Depan (Pertanyaan / Konsep / Istilah)
+              </label>
+              <textarea id="fcManageFront" class="textarea-custom" rows="2"
+                placeholder="Contoh: Apa itu Mitokondria?" required style="font-size: 12.5px;"></textarea>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 10px;">
+              <label class="form-label" style="font-size: 11px; font-weight: 700; color: var(--c-slate-deep); margin-bottom: 4px; display: block;">
+                Sisi Belakang (Kunci Jawaban / Penjelasan)
+              </label>
+              <textarea id="fcManageBack" class="textarea-custom" rows="2"
+                placeholder="Contoh: Organel sel yang memproduksi energi (ATP)." required style="font-size: 12.5px;"></textarea>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 12px;">
+              <label class="form-label" style="font-size: 11px; font-weight: 700; color: var(--c-slate-deep); margin-bottom: 4px; display: block;">
+                Topik / Kategori (Opsional)
+              </label>
+              <input type="text" id="fcManageTopic" class="input-text" placeholder="Contoh: Biologi" value="Umum" style="font-size: 12px; padding: 7px 10px;">
+            </div>
+
+            <button type="submit" id="fcSubmitBtn" class="btn btn-primary btn-full" style="padding: 9px 12px; font-size: 12.5px; font-weight: 700;">
+              ➕ Simpan Kartu ke Deck
+            </button>
+          </form>
         </div>
-        <div class="form-group">
-          <label class="form-label">Sisi Belakang (Kunci Jawaban / Penjelasan)</label>
-          <textarea id="manualFcBack" class="textarea-custom" rows="3"
-            placeholder="Contoh: Menyerap energi cahaya matahari untuk proses fotosintesis." required></textarea>
+
+        <!-- HEADER DAFTAR KARTU DALAM DECK -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <span style="font-size: 12px; font-weight: 800; color: var(--c-slate-deep); text-transform: uppercase; letter-spacing: 0.3px;">
+            Daftar Kartu dalam Deck
+          </span>
+          <button type="button" id="fcClearAllBtn" onclick="clearAllFlashcards()" class="btn btn-secondary btn-sm"
+            style="font-size: 10.5px; padding: 3px 8px; color: #b91c1c;">
+            🗑️ Hapus Semua
+          </button>
         </div>
-        <div class="form-group">
-          <label class="form-label">Topik / Kategori</label>
-          <input type="text" id="manualFcTopic" class="input-text" placeholder="Contoh: Biologi" value="Umum">
+
+        <!-- CONTAINER DAFTAR KARTU / EMPTY STATE -->
+        <div id="fcDeckListContainer" style="display: flex; flex-direction: column; gap: 8px;">
+          <!-- Diisi otomatis oleh JavaScript renderFlashcardDeckList() -->
         </div>
-        <button type="submit" class="btn btn-primary btn-full" style="margin-top: 10px;">
-          Simpan ke Deck
+
+      </div>
+
+      <!-- FOOTER MODAL -->
+      <div style="margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--c-border); display: flex; gap: 8px; flex-shrink: 0;">
+        <button type="button" class="btn btn-secondary btn-full" onclick="closeFlashcardDeckModal()">
+          Tutup
         </button>
-      </form>
+      </div>
     </div>
   </div>
 
@@ -4376,15 +4445,47 @@
       document.querySelectorAll('.priority-pill').forEach(btn => {
         btn.classList.toggle('active', btn.getAttribute('data-prio') === priority);
       });
-      playTone(450, 'sine', 0.05);
     }
 
-    function setQuickTime(timeStr) {
-      const input = document.getElementById('taskInputTime');
-      if (input) {
-        input.value = timeStr;
-        playTone(460, 'sine', 0.04);
-        showToast(`Jam pengumpulan diatur: ${timeStr} WIB ⏰`);
+    // Hitung & update prioritas otomatis berdasarkan tanggal + jam (dalam hitungan jam penuh)
+    function handleDeadlineInputChange() {
+      const dateInput = document.getElementById('taskInputDeadline');
+      const timeInput = document.getElementById('taskInputTime');
+      if (!dateInput || !dateInput.value) return;
+
+      const dateVal = dateInput.value; // format YYYY-MM-DD
+      const timeVal = (timeInput && timeInput.value) ? timeInput.value : '23:59';
+
+      const parts = dateVal.split('-');
+      const timeParts = timeVal.split(':');
+      const h = parseInt(timeParts[0], 10) || 23;
+      const m = parseInt(timeParts[1], 10) || 59;
+
+      const dueDateTime = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]), h, m, 0);
+      if (isNaN(dueDateTime.getTime())) return;
+
+      const now = new Date();
+      const diffMs = dueDateTime.getTime() - now.getTime();
+      const diffHours = diffMs / (1000 * 60 * 60);
+
+      // 🔴 Tinggi: tenggat <= 24 jam (hari ini atau sudah lewat)
+      // 🟡 Sedang: 24 < tenggat <= 48 jam (besok)
+      // 🟢 Rendah: tenggat > 48 jam (lusa ke atas)
+      let autoPrio = 'rendah';
+      if (diffHours <= 24) {
+        autoPrio = 'tinggi';
+      } else if (diffHours <= 48) {
+        autoPrio = 'sedang';
+      }
+
+      selectPriorityPill(autoPrio);
+
+      if (autoPrio === 'tinggi') {
+        showToast('🔴 Tenggat ≤24 jam → Prioritas otomatis TINGGI!');
+      } else if (autoPrio === 'sedang') {
+        showToast('🟡 Tenggat ~48 jam → Prioritas otomatis SEDANG!');
+      } else {
+        showToast('🟢 Tenggat jauh → Prioritas otomatis RENDAH!');
       }
     }
 
@@ -4420,13 +4521,25 @@
       const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
       const parts = task.deadline.split('-');
       const dueDate = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+      // Validasi: pastikan tanggal valid (bukan NaN)
+      if (isNaN(dueDate.getTime())) {
+        return {
+          priority: task.priority || 'sedang',
+          dueBadgeText: task.date || 'Tanggal tidak valid',
+          dueBadgeType: 'normal',
+          diffDays: 999,
+          isOverdue: false
+        };
+      }
       const diffDays = Math.round((dueDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
 
       let priority = 'rendah';
       let dueBadgeText = '';
       let dueBadgeType = 'normal';
+      let isOverdue = false;
 
       if (diffDays < 0) {
+        isOverdue = true;
         priority = 'tinggi';
         dueBadgeText = `🚨 Lewat (${Math.abs(diffDays)}h lalu)`;
         dueBadgeType = 'urgent';
@@ -4452,7 +4565,8 @@
         priority,
         dueBadgeText,
         dueBadgeType,
-        diffDays
+        diffDays,
+        isOverdue
       };
     }
 
@@ -4719,17 +4833,20 @@
       overdueList.forEach(task => {
         const parts = task.deadline.split('-');
         const taskDueDate = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+        // Validasi tanggal task sebelum diproses
+        if (isNaN(taskDueDate.getTime())) return;
+
         const todayDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
         const isSameDay = taskDueDate.getTime() === todayDate.getTime();
 
         // Interval: 30 menit jika hari ini, 12 jam jika sudah lewat hari sebelumnya
         const requiredIntervalMs = isSameDay ? (30 * 60 * 1000) : (12 * 60 * 60 * 1000);
-        const lastNotifMs = notifLogMap[task.id] || 0;
+        const lastNotifMs = notifLogMap[task.id] !== undefined ? notifLogMap[task.id] : 0;
 
         // PENTING: Jika belum pernah dinotifikasi sama sekali (lastNotifMs === 0),
-        // langsung picu notifikasi saat itu juga (misal 18:26 saat tenggat 18:25)!
-        // Setelah itu, baru ikuti siklus 30 menit (hari ini) atau 12 jam (besoknya).
-        if (!lastNotifMs || (nowMs - lastNotifMs >= requiredIntervalMs)) {
+        // langsung picu notifikasi saat itu juga!
+        // Setelah itu, ikuti siklus 30 menit (hari ini) atau 12 jam (besoknya).
+        if (lastNotifMs === 0 || (nowMs - lastNotifMs >= requiredIntervalMs)) {
           dueToNotifyTasks.push(task);
           notifLogMap[task.id] = nowMs;
         }
@@ -4739,12 +4856,24 @@
         localStorage.setItem(STORAGE_KEY_NOTIF_LOG, JSON.stringify(notifLogMap));
         playTone(580, 'triangle', 0.18, 0.15);
 
+        let toastMsg = '';
         if (dueToNotifyTasks.length === 1) {
-          showToast(`⚠️ Tugas "${dueToNotifyTasks[0].title}" sudah lewat tenggat. Yuk, selesaikan sekarang!`);
+          toastMsg = `⚠️ Tugas "${dueToNotifyTasks[0].title}" sudah lewat tenggat. Yuk, selesaikan sekarang!`;
         } else if (dueToNotifyTasks.length === 2) {
-          showToast(`⚠️ 2 Tugas lewat tenggat ("${dueToNotifyTasks[0].title}", "${dueToNotifyTasks[1].title}"). Yuk selesaikan!`);
+          toastMsg = `⚠️ 2 Tugas lewat tenggat ("${dueToNotifyTasks[0].title}", "${dueToNotifyTasks[1].title}"). Yuk selesaikan!`;
         } else {
-          showToast(`⚠️ Ada ${dueToNotifyTasks.length} tugas sudah lewat tenggat waktu. Yuk, selesaikan sekarang!`);
+          toastMsg = `⚠️ Ada ${dueToNotifyTasks.length} tugas sudah lewat tenggat waktu. Yuk, selesaikan sekarang!`;
+        }
+        showToast(toastMsg);
+
+        // Browser Notification API (jika izin sudah diberikan)
+        if ('Notification' in window && Notification.permission === 'granted') {
+          try {
+            new Notification('⚠️ Tugas Terlambat – Productivity Hub', {
+              body: toastMsg,
+              icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><text y="26" font-size="28">⚠️</text></svg>'
+            });
+          } catch (e) { /* abaikan jika browser tidak mendukung */ }
         }
       }
     }
@@ -4756,42 +4885,48 @@
       const filter = appState.activeTaskFilter;
       let filtered = appState.tasks;
 
-      // Filter: Tab 'completed' hanya menampilkan yang selesai,
-      // sedangkan tab 'all' (Semua) dan 'active' (Aktif) hanya menampilkan tugas yang belum selesai agar tidak penuh
-      if (filter === 'completed') {
-        filtered = appState.tasks.filter(t => t.completed);
-      } else {
+      // Filter:
+      // 'all'       -> Semua tugas (aktif + selesai)
+      // 'active'    -> Hanya tugas yang belum selesai
+      // 'completed' -> Hanya tugas yang sudah selesai
+      if (filter === 'active') {
         filtered = appState.tasks.filter(t => !t.completed);
+      } else if (filter === 'completed') {
+        filtered = appState.tasks.filter(t => t.completed);
       }
+      // filter === 'all' -> tidak perlu filter, tampilkan semua
 
-      // Update Hero Stats
+      // Update Hero Stats (Statistik Total Tugas Dinamis)
       const total = appState.tasks.length;
       const completed = appState.tasks.filter(t => t.completed).length;
+      const active = total - completed;
       const pct = total === 0 ? 0 : Math.round((completed / total) * 100);
 
       const bar = document.getElementById('taskProgressBar');
       const label = document.getElementById('taskProgressLabel');
       const pctLabel = document.getElementById('taskPercentLabel');
-
-      const heroCard = document.getElementById('taskHeroCard');
-      const motiv = document.getElementById('taskMotivationText');
-      const restBadge = document.getElementById('restModeBadge');
+      const activeCountEl = document.getElementById('taskHeroActiveCount');
+      const completedCountEl = document.getElementById('taskHeroCompletedCount');
+      const subtitleEl = document.getElementById('taskHeroSubtitle');
+      const badgeEl = document.getElementById('taskHeroStatusBadge');
 
       if (bar) bar.style.width = `${pct}%`;
-      if (label) label.textContent = `${completed} dari ${total} tugas selesai`;
       if (pctLabel) pctLabel.textContent = `${pct}%`;
+      if (activeCountEl) activeCountEl.textContent = active;
+      if (completedCountEl) completedCountEl.textContent = completed;
 
-      if (completed >= 5) {
-        if (heroCard) heroCard.classList.add('hero-rest-mode');
-        if (motiv) motiv.textContent = 'Selamat! Anda berhasil menyelesaikan 5 tugas. Waktunya santai & istirahat! 🌅✨';
-        if (restBadge) restBadge.style.display = 'block';
+      if (total === 0) {
+        if (label) label.textContent = 'Belum ada tugas yang ditambahkan';
+        if (subtitleEl) subtitleEl.textContent = 'Belum ada tugas yang ditambahkan';
+        if (badgeEl) badgeEl.textContent = '0 Tugas';
       } else {
-        if (heroCard) heroCard.classList.remove('hero-rest-mode');
-        if (restBadge) restBadge.style.display = 'none';
-        if (motiv) {
-          if (pct === 100 && total > 0) motiv.textContent = 'Luar biasa! Semua target hari ini tuntas! 🏆';
-          else if (pct >= 50) motiv.textContent = 'Kerja bagus! Lebih dari setengah tugas telah selesai 💪';
-          else motiv.textContent = 'Mulai dengan 1 tugas kecil untuk membangun momentum! ✨';
+        if (label) label.textContent = `${completed} dari ${total} tugas selesai`;
+        if (pct === 100) {
+          if (subtitleEl) subtitleEl.textContent = 'Semua target tugas telah tuntas diselesaikan! 🎉';
+          if (badgeEl) badgeEl.textContent = 'Semua Selesai 🎉';
+        } else {
+          if (subtitleEl) subtitleEl.textContent = `${active} tugas aktif masih perlu diselesaikan`;
+          if (badgeEl) badgeEl.textContent = `${active} Aktif`;
         }
       }
 
@@ -4823,13 +4958,19 @@
       // Prioritas nilai angka: tinggi = 300, sedang = 200, rendah = 100
       const getPrioWeight = (prio) => (prio === 'tinggi' ? 300 : (prio === 'sedang' ? 200 : 100));
 
-      // Urutkan aktif: TINGGI di paling atas, SEDANG di tengah, RENDAH di paling bawah!
+      // Urutkan aktif:
+      // 1) Overdue (sudah lewat tenggat) SELALU DI PALING ATAS
+      // 2) Prioritas tinggi -> sedang -> rendah
+      // 3) Deadline terdekat (diffDays terkecil) di antara yang sama-sama overdue / tidak overdue
       activeList.sort((a, b) => {
         const infoA = computeTaskPriorityAndDue(a);
         const infoB = computeTaskPriorityAndDue(b);
+        // Tier 1: overdue selalu menang
+        if (infoB.isOverdue !== infoA.isOverdue) return infoB.isOverdue ? 1 : -1;
+        // Tier 2: prioritas (tinggi > sedang > rendah)
         const prioDiff = getPrioWeight(infoB.priority) - getPrioWeight(infoA.priority);
         if (prioDiff !== 0) return prioDiff;
-        // Jika prioritas sama, urutkan deadline terdekat
+        // Tier 3: deadline terdekat
         return infoA.diffDays - infoB.diffDays;
       });
 
@@ -4847,6 +4988,10 @@
         const prioLabel = prio === 'tinggi' ? 'Tinggi' : (prio === 'sedang' ? 'Sedang' : 'Rendah');
         const dueTimeStr = task.dueTime || '23:59';
         const hasNote = task.note && task.note.trim().length > 0;
+        // Badge ungu khusus untuk tugas selesai di tab "Semua"
+        const completedBadge = task.completed
+          ? `<span style="font-size:10px;font-weight:800;padding:2px 7px;border-radius:6px;background:rgba(126,107,147,0.18);color:#7E6B93;border:1px solid rgba(126,107,147,0.3);">✅ Selesai</span>`
+          : '';
         return `
           <div class="task-item ${task.completed ? 'completed' : ''}" id="task-${task.id}">
             <!-- TOMBOL CENTANG BULAT DI SISI KIRI (TERKUNCI SETELAH DICENTANG) -->
@@ -4859,6 +5004,7 @@
               <div class="task-meta" style="flex-wrap: wrap; gap: 5px; align-items: center;">
                 <span class="badge-prio ${prio}">${prioLabel}</span>
                 <span class="task-deadline-badge ${info.dueBadgeType}">${info.dueBadgeText} • ⏰ ${dueTimeStr}</span>
+                ${completedBadge}
                 ${hasNote ? `<span class="task-note-pill">📝 Catatan</span>` : ''}
               </div>
             </div>
@@ -4879,17 +5025,27 @@
       const timeInput = document.getElementById('taskInputTime');
       if (!input || !input.value.trim()) return;
 
+      // Validasi wajib: tanggal & jam harus diisi
       const deadlineVal = deadlineInput ? deadlineInput.value : '';
-      const timeVal = timeInput && timeInput.value ? timeInput.value : '23:59';
+      const timeVal = timeInput && timeInput.value ? timeInput.value : '';
+      if (!deadlineVal) {
+        showToast('⚠️ Tanggal pengumpulan wajib diisi!');
+        if (deadlineInput) deadlineInput.focus();
+        return;
+      }
+      if (!timeVal) {
+        showToast('⚠️ Jam pengumpulan wajib diisi!');
+        if (timeInput) timeInput.focus();
+        return;
+      }
+
       const noteVal = noteInput ? noteInput.value.trim() : '';
       let initialPrio = currentSelectedPriority;
       let dateText = 'Hari ini';
 
-      if (deadlineVal) {
-        const info = computeTaskPriorityAndDue({ deadline: deadlineVal });
-        initialPrio = info.priority;
-        dateText = info.dueBadgeText;
-      }
+      const info = computeTaskPriorityAndDue({ deadline: deadlineVal });
+      initialPrio = info.priority;
+      dateText = info.dueBadgeText;
 
       const newTask = {
         id: 't_' + Date.now(),
@@ -4907,6 +5063,7 @@
       input.value = '';
       if (noteInput) noteInput.value = '';
       if (deadlineInput) deadlineInput.value = '';
+      if (timeInput) timeInput.value = '23:59';
       playSuccessChime();
       showToast('Tugas baru berhasil ditambahkan! 🎯');
       renderTasks();
@@ -5720,21 +5877,31 @@ Hukum III Newton adalah Hukum Aksi-Reaksi (F_aksi = -F_reaksi). Ketika benda per
         return;
       }
 
-      const numMcq = Math.min(50, Math.max(0, parseInt(document.getElementById('settingNumMcq').value) || 5));
-      const numEssay = Math.min(20, Math.max(0, parseInt(document.getElementById('settingNumEssay').value) || 3));
+      // Parsing aman: gunakan null-check eksplisit agar nilai 0 tidak dianggap falsy
+      const mcqRaw  = parseInt(document.getElementById('settingNumMcq').value,   10);
+      const essayRaw = parseInt(document.getElementById('settingNumEssay').value, 10);
+      const numMcq   = Math.min(50, Math.max(0, isNaN(mcqRaw)   ? 5 : mcqRaw));
+      const numEssay = Math.min(20, Math.max(0, isNaN(essayRaw) ? 3 : essayRaw));
 
-      showLoading(true, 'Menyusun Soal & Pembahasan...', `Merumuskan ${numMcq} PG & ${numEssay} Essay level ${selectedQuizDifficulty.toUpperCase()}...`);
+      // Validasi: minimal satu jenis soal harus > 0
+      if (numMcq === 0 && numEssay === 0) {
+        showToast('⚠️ Minimal salah satu jenis soal (PG atau Essay) harus lebih dari 0!');
+        return;
+      }
+
+      const pgLabel    = numMcq   > 0 ? `${numMcq} PG`       : 'tanpa PG';
+      const essayLabel = numEssay > 0 ? `${numEssay} Essay`  : 'tanpa Essay';
+      showLoading(true, 'Menyusun Soal & Pembahasan...', `Merumuskan ${pgLabel} & ${essayLabel} — level ${selectedQuizDifficulty.toUpperCase()}...`);
+
       setTimeout(() => {
         const result = buildQuizFromText(rawText, numMcq, numEssay, selectedQuizDifficulty);
         generatedQuestions = result;
 
-        // FILTER AMAN: Jika numEssay di-set ke 0, maka array essay dipaksa kosong []
-        const filteredEssays = numEssay > 0 ? result.essays : [];
-
         // Inisialisasi antrean latihan soal step-by-step
+        // buildQuizFromText sudah menjamin essays=[] jika numEssay=0, dan mcqs=[] jika numMcq=0
         quizRunnerState.questionsList = [
           ...result.mcqs.map(m => ({ ...m, type: 'mcq' })),
-          ...filteredEssays.map(e => ({ ...e, type: 'essay' })) // <-- Menggunakan filteredEssays yang sudah disaring
+          ...result.essays.map(e => ({ ...e, type: 'essay' }))
         ];
         quizRunnerState.totalSteps = quizRunnerState.questionsList.length;
         quizRunnerState.currentStep = 0;
@@ -5904,10 +6071,9 @@ Hukum III Newton adalah Hukum Aksi-Reaksi (F_aksi = -F_reaksi). Ketika benda per
         });
       }
 
-      // Build Essays
+      // Build Essays — jika targetEssay=0, langsung kembalikan essays kosong tanpa iterasi
       const essays = [];
-      if (targetEssay === 0) { return { mcqs, essays: [], timestamp: new Date().toISOString() }; }
-      if (targetEssay > 0 && targetEssay < 3) { targetEssay = targetEssay; }
+      if (targetEssay === 0) { return { mcqs, essays: [] }; }
       for (let j = 0; j < targetEssay; j++) {
         let currentDiff = difficulty;
         if (currentDiff === 'campur') {
@@ -6478,8 +6644,35 @@ Hukum III Newton adalah Hukum Aksi-Reaksi (F_aksi = -F_reaksi). Ketika benda per
         if (actionsWrap) actionsWrap.style.display = 'none';
         if (navWrap) navWrap.style.display = 'none';
         if (endSessionWrap) endSessionWrap.style.display = 'none';
-        document.getElementById('fcFrontText').textContent = 'Deck masih kosong!';
-        document.getElementById('fcBackText').textContent = 'Tambahkan kartu atau generate dari materi.';
+
+        const memCount = document.getElementById('fcMemorizedCount');
+        const totCount = document.getElementById('fcTotalCount');
+        const pctText = document.getElementById('fcPercentText');
+        const pBar = document.getElementById('fcProgressBar');
+        if (memCount) memCount.textContent = '0';
+        if (totCount) totCount.textContent = '0';
+        if (pctText) pctText.textContent = '0%';
+        if (pBar) pBar.style.width = '0%';
+
+        const numEl = document.getElementById('fcCardNumber');
+        const topicEl = document.getElementById('fcTopicTag');
+        const frontEl = document.getElementById('fcFrontText');
+        const backEl = document.getElementById('fcBackText');
+        if (numEl) numEl.textContent = '0 Kartu';
+        if (topicEl) topicEl.textContent = 'Kosong';
+        if (frontEl) {
+          frontEl.innerHTML = `
+            <div style="font-size: 26px; margin-bottom: 6px;">📭</div>
+            <div style="font-size: 15px; font-weight: 800; color: var(--c-slate-deep);">Deck Masih Kosong</div>
+            <div style="font-size: 11.5px; color: var(--c-text-muted); margin-top: 6px; font-weight: 500;">
+              Gunakan tombol <strong>+ Buat Manual</strong> atau <strong>Unggah File</strong> di atas untuk mulai belajar.
+            </div>
+          `;
+        }
+        if (backEl) {
+          backEl.innerHTML = '<div style="font-size: 13px; color: var(--c-text-muted);">Belum ada kartu dalam deck.</div>';
+        }
+        unflipFlashcard();
         return;
       }
 
@@ -6552,9 +6745,10 @@ Hukum III Newton adalah Hukum Aksi-Reaksi (F_aksi = -F_reaksi). Ketika benda per
       // Tampilan Mode Belajar Aktif
       if (stageWrap) stageWrap.style.display = 'block';
       if (completionCard) completionCard.style.display = 'none';
-      if (actionsWrap) actionsWrap.style.display = 'grid';
+      // Gunakan 'flex' bukan 'grid' agar tombol Belum/Ragu/Hafal tampil horizontal sejajar
+      if (actionsWrap) actionsWrap.style.display = 'flex';
       if (navWrap) navWrap.style.display = 'flex';
-      if (endSessionWrap) endSessionWrap.style.display = 'block';
+      if (endSessionWrap) endSessionWrap.style.display = 'flex';
 
       const idx = appState.currentFcIndex % appState.flashcards.length;
       const card = appState.flashcards[idx];
@@ -6656,6 +6850,285 @@ Hukum III Newton adalah Hukum Aksi-Reaksi (F_aksi = -F_reaksi). Ketika benda per
       playSuccessChime();
       showToast('Deck diatur ulang untuk belajar kembali 🔄');
       renderCurrentFlashcard();
+    }
+
+    /* ========================================================
+       MODAL KELOLA DECK & FLASHCARD CRUD
+       ======================================================== */
+
+    // Buka Modal Kelola Deck Flashcard (opsional: fokus ke form tambah baru)
+    function openFlashcardDeckModal(focusAdd = false) {
+      const modal = document.getElementById('fcDeckModal');
+      if (!modal) return;
+
+      fcSessionEnded = false;
+      modal.style.display = 'flex';
+      playTone(450, 'sine', 0.05);
+
+      renderFlashcardDeckList();
+
+      if (focusAdd) {
+        cancelEditFlashcard();
+        setTimeout(() => {
+          focusDeckAddForm();
+        }, 120);
+      }
+    }
+
+    // Tutup Modal Kelola Deck Flashcard
+    function closeFlashcardDeckModal() {
+      const modal = document.getElementById('fcDeckModal');
+      if (modal) modal.style.display = 'none';
+      cancelEditFlashcard();
+    }
+
+    // Fokus ke form tambah kartu manual
+    function focusDeckAddForm() {
+      cancelEditFlashcard();
+      const frontInput = document.getElementById('fcManageFront');
+      const formBox = document.getElementById('fcFormContainer');
+      if (formBox) formBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      if (frontInput) {
+        frontInput.focus();
+      }
+    }
+
+    // Mulai mode Edit untuk suatu kartu
+    function startEditFlashcard(id) {
+      const card = appState.flashcards.find(c => c.id === id);
+      if (!card) return;
+
+      document.getElementById('fcEditCardId').value = card.id;
+      document.getElementById('fcManageFront').value = card.front;
+      document.getElementById('fcManageBack').value = card.back;
+      document.getElementById('fcManageTopic').value = card.topic || 'Umum';
+
+      // Ubah teks UI form ke mode Edit
+      const heading = document.getElementById('fcFormHeading');
+      const submitBtn = document.getElementById('fcSubmitBtn');
+      const cancelBtn = document.getElementById('fcCancelEditBtn');
+
+      if (heading) heading.innerHTML = '✏️ Edit Kartu Flashcard';
+      if (submitBtn) submitBtn.innerHTML = '💾 Simpan Perubahan Kartu';
+      if (cancelBtn) cancelBtn.style.display = 'inline-block';
+
+      // Berikan efek highlight pada kartu yang sedang diedit di list
+      document.querySelectorAll('.fc-deck-item-row').forEach(row => {
+        row.style.background = '#ffffff';
+        row.style.borderColor = 'var(--c-border)';
+      });
+      const activeRow = document.getElementById(`fc-deck-row-${card.id}`);
+      if (activeRow) {
+        activeRow.style.background = 'rgba(239, 246, 255, 0.8)';
+        activeRow.style.borderColor = '#93c5fd';
+      }
+
+      // Scroll form ke tampilan dan fokus ke input Sisi Depan
+      const formBox = document.getElementById('fcFormContainer');
+      const frontInput = document.getElementById('fcManageFront');
+      if (formBox) formBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      if (frontInput) frontInput.focus();
+
+      playTone(420, 'sine', 0.06);
+    }
+
+    // Batalkan mode Edit dan kembalikan ke form Tambah Baru
+    function cancelEditFlashcard() {
+      const idInput = document.getElementById('fcEditCardId');
+      const frontInput = document.getElementById('fcManageFront');
+      const backInput = document.getElementById('fcManageBack');
+      const topicInput = document.getElementById('fcManageTopic');
+
+      if (idInput) idInput.value = '';
+      if (frontInput) frontInput.value = '';
+      if (backInput) backInput.value = '';
+      if (topicInput) topicInput.value = 'Umum';
+
+      const heading = document.getElementById('fcFormHeading');
+      const submitBtn = document.getElementById('fcSubmitBtn');
+      const cancelBtn = document.getElementById('fcCancelEditBtn');
+
+      if (heading) heading.innerHTML = '➕ Tambah Kartu Baru';
+      if (submitBtn) submitBtn.innerHTML = '➕ Simpan Kartu ke Deck';
+      if (cancelBtn) cancelBtn.style.display = 'none';
+
+      document.querySelectorAll('.fc-deck-item-row').forEach(row => {
+        row.style.background = '#ffffff';
+        row.style.borderColor = 'var(--c-border)';
+      });
+    }
+
+    // Simpan kartu (baik saat Tambah Baru maupun Edit)
+    function handleSaveFlashcard(e) {
+      if (e) e.preventDefault();
+      const id = document.getElementById('fcEditCardId').value;
+      const front = document.getElementById('fcManageFront').value.trim();
+      const back = document.getElementById('fcManageBack').value.trim();
+      const topic = document.getElementById('fcManageTopic').value.trim() || 'Umum';
+
+      if (!front || !back) {
+        showToast('Pertanyaan dan jawaban kartu wajib diisi! ⚠️');
+        return;
+      }
+
+      if (id) {
+        // Mode UPDATE / EDIT KARTU YANG SUDAH ADA
+        const card = appState.flashcards.find(c => c.id === id);
+        if (card) {
+          card.front = front;
+          card.back = back;
+          card.topic = topic;
+          localStorage.setItem(STORAGE_KEYS.FLASHCARDS, JSON.stringify(appState.flashcards));
+          showToast('Kartu flashcard berhasil diperbarui! ✏️');
+          playTone(520, 'sine', 0.08);
+        }
+      } else {
+        // Mode TAMBAH KARTU BARU
+        const newCard = {
+          id: 'fc_manual_' + Date.now(),
+          front,
+          back,
+          topic,
+          memorized: false
+        };
+        appState.flashcards.unshift(newCard);
+        appState.currentFcIndex = 0;
+        fcSessionEnded = false;
+        localStorage.setItem(STORAGE_KEYS.FLASHCARDS, JSON.stringify(appState.flashcards));
+        showToast('Kartu baru berhasil ditambahkan ke deck! 🎴');
+        playSuccessChime();
+      }
+
+      cancelEditFlashcard();
+      renderFlashcardDeckList();
+      renderCurrentFlashcard();
+    }
+
+    // Render daftar kartu lengkap dalam modal kelola deck
+    function renderFlashcardDeckList() {
+      const container = document.getElementById('fcDeckListContainer');
+      const subtitle = document.getElementById('fcDeckModalSubtitle');
+      const clearAllBtn = document.getElementById('fcClearAllBtn');
+      if (!container) return;
+
+      const total = appState.flashcards.length;
+      if (subtitle) subtitle.textContent = `Total: ${total} Kartu`;
+
+      // Jika deck kosong (0 kartu) -> Tampilkan EMPTY STATE ringkas
+      if (total === 0) {
+        if (clearAllBtn) clearAllBtn.style.display = 'none';
+        container.innerHTML = `
+          <div style="text-align: center; padding: 26px 14px; background: #ffffff; border-radius: var(--radius-md); border: 1.5px dashed var(--c-border); color: var(--c-text-muted);">
+            <div style="font-size: 32px; margin-bottom: 6px;">📭</div>
+            <div style="font-size: 13.5px; font-weight: 800; color: var(--c-slate-deep); margin-bottom: 4px;">Deck Masih Kosong</div>
+            <p style="font-size: 11.5px; line-height: 1.5; color: var(--c-text-muted); margin: 0 auto 14px auto; max-width: 270px;">
+              Belum ada kartu hafalan di deck ini. Silakan tulis kartu manual melalui form di atas atau unggah file materi untuk diekstrak otomatis.
+            </p>
+            <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
+              <button type="button" class="btn btn-outline btn-sm" onclick="focusDeckAddForm()" style="font-size: 11.5px; padding: 6px 12px;">
+                ✏️ Tulis Kartu di Atas
+              </button>
+              <button type="button" class="btn btn-primary btn-sm" onclick="closeFlashcardDeckModal(); document.getElementById('fcDirectPdfInput').click();" style="font-size: 11.5px; padding: 6px 12px;">
+                📑 Unggah Materi File
+              </button>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      if (clearAllBtn) clearAllBtn.style.display = 'inline-block';
+
+      container.innerHTML = appState.flashcards.map((card, idx) => {
+        const statusDot = card.memorized
+          ? '<span title="Sudah Hafal" style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#10b981;margin-right:6px;flex-shrink:0;"></span>'
+          : '<span title="Belum Hafal" style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#b9a6de;margin-right:6px;flex-shrink:0;"></span>';
+
+        return `
+          <div class="fc-deck-item-row" id="fc-deck-row-${card.id}"
+            style="display: flex; align-items: center; padding: 10px 12px; background: #ffffff; border: 1px solid var(--c-border); border-radius: var(--radius-md); gap: 8px; transition: var(--trans-spring);">
+            <span style="font-size: 10.5px; font-weight: 800; color: var(--c-text-muted); min-width: 24px;">#${idx + 1}</span>
+            <div style="flex: 1; min-width: 0;">
+              <div style="display: flex; align-items: center;">
+                ${statusDot}
+                <span style="font-size: 12px; font-weight: 700; color: var(--c-slate-deep); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 170px;">
+                  ${escapeHtml(card.front)}
+                </span>
+              </div>
+              <div style="font-size: 11px; color: var(--c-text-muted); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px;">
+                ↩ ${escapeHtml(card.back)}
+              </div>
+            </div>
+            <span style="font-size: 9.5px; font-weight: 700; padding: 2px 6px; background: rgba(183,210,220,0.3); border-radius: 6px; color: var(--c-slate-med); white-space: nowrap; flex-shrink: 0;">
+              ${escapeHtml(card.topic || 'Umum')}
+            </span>
+            <!-- TOMBOL EDIT (PENSIL) -->
+            <button type="button" onclick="startEditFlashcard('${card.id}')" title="Edit kartu ini"
+              style="flex-shrink: 0; background: #eff6ff; border: 1px solid #bfdbfe; color: #2563eb; border-radius: 8px; width: 30px; height: 30px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 13px; transition: var(--trans-spring);">
+              ✏️
+            </button>
+            <!-- TOMBOL HAPUS (TEMPAT SAMPAH) -->
+            <button type="button" onclick="deleteFlashcard('${card.id}')" title="Hapus kartu ini"
+              style="flex-shrink: 0; background: #fee2e2; border: 1px solid #fecaca; color: #b91c1c; border-radius: 8px; width: 30px; height: 30px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 13px; transition: var(--trans-spring);">
+              🗑️
+            </button>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Hapus satu kartu dari deck berdasarkan ID
+    function deleteFlashcard(id) {
+      const idx = appState.flashcards.findIndex(c => c.id === id);
+      if (idx === -1) return;
+      const front = appState.flashcards[idx].front;
+
+      // Jika kartu yang sedang diedit dihapus, batalkan form edit
+      const editingId = document.getElementById('fcEditCardId')?.value;
+      if (editingId === id) {
+        cancelEditFlashcard();
+      }
+
+      appState.flashcards.splice(idx, 1);
+      if (appState.currentFcIndex >= appState.flashcards.length) {
+        appState.currentFcIndex = Math.max(0, appState.flashcards.length - 1);
+      }
+      localStorage.setItem(STORAGE_KEYS.FLASHCARDS, JSON.stringify(appState.flashcards));
+      playTone(280, 'sine', 0.08);
+      showToast(`🗑️ Kartu "${front.substring(0, 25)}..." dihapus`);
+      renderFlashcardDeckList();
+      renderCurrentFlashcard();
+    }
+
+    // Hapus seluruh kartu di deck (dengan konfirmasi)
+    function clearAllFlashcards() {
+      if (!confirm(`Hapus semua ${appState.flashcards.length} kartu dalam deck? Tindakan ini tidak bisa dibatalkan.`)) return;
+      appState.flashcards = [];
+      appState.currentFcIndex = 0;
+      fcSessionEnded = false;
+      cancelEditFlashcard();
+      localStorage.setItem(STORAGE_KEYS.FLASHCARDS, JSON.stringify(appState.flashcards));
+      playTone(220, 'sawtooth', 0.12);
+      showToast('🗑️ Semua kartu deck telah dihapus.');
+      renderFlashcardDeckList();
+      renderCurrentFlashcard();
+    }
+
+    // Aliases & Wrappers untuk kompatibilitas
+    function openFlashcardDeckPanel() {
+      openFlashcardDeckModal(false);
+    }
+    function toggleFlashcardDeckPanel() {
+      openFlashcardDeckModal(false);
+    }
+    function openAddFlashcardModal() {
+      openFlashcardDeckModal(true);
+    }
+    function closeAddFlashcardModal() {
+      closeFlashcardDeckModal();
+    }
+    function handleManualAddFlashcard(e) {
+      handleSaveFlashcard(e);
     }
 
     function shuffleFlashcards() {
@@ -6842,45 +7315,6 @@ Hukum III Newton adalah Hukum Aksi-Reaksi (F_aksi = -F_reaksi). Ketika benda per
       }, 700);
     }
 
-    function openAddFlashcardModal() {
-      const modal = document.getElementById('addFcModal');
-      if (modal) modal.style.display = 'flex';
-      playTone(450, 'sine', 0.05);
-    }
-
-    function closeAddFlashcardModal() {
-      const modal = document.getElementById('addFcModal');
-      if (modal) modal.style.display = 'none';
-    }
-
-    function handleManualAddFlashcard(e) {
-      e.preventDefault();
-      const front = document.getElementById('manualFcFront').value.trim();
-      const back = document.getElementById('manualFcBack').value.trim();
-      const topic = document.getElementById('manualFcTopic').value.trim() || 'Umum';
-
-      if (!front || !back) return;
-
-      const newCard = {
-        id: 'fc_manual_' + Date.now(),
-        front,
-        back,
-        topic,
-        memorized: false
-      };
-
-      appState.flashcards.unshift(newCard);
-      localStorage.setItem(STORAGE_KEYS.FLASHCARDS, JSON.stringify(appState.flashcards));
-
-      document.getElementById('manualFcFront').value = '';
-      document.getElementById('manualFcBack').value = '';
-      closeAddFlashcardModal();
-
-      playSuccessChime();
-      showToast('Flashcard manual berhasil ditambahkan! 🎴');
-      appState.currentFcIndex = 0;
-      renderCurrentFlashcard();
-    }
 
     /* ========================================================
        9. UTILITIES (TOAST, SPINNER, TIME, ESCAPE)
@@ -6948,16 +7382,31 @@ Hukum III Newton adalah Hukum Aksi-Reaksi (F_aksi = -F_reaksi). Ketika benda per
       renderCurrentFlashcard();
       updateSoundIcon();
 
-      // Cek dan update notifikasi tugas tertunda (tiap 5 detik untuk presisi menit tenggat)
+      // Minta izin Browser Notification API agar bisa kirim notif sistem
+      if ('Notification' in window && Notification.permission === 'default') {
+        Notification.requestPermission();
+      }
+
+      // Cek dan update notifikasi tugas tertunda secara real-time (tiap 5 detik)
       updateNotificationUI();
       checkAndTriggerOverdueToastNotifications();
-      setInterval(checkAndTriggerOverdueToastNotifications, 5000);
+      setInterval(() => {
+        // Refresh UI lonceng & banner setiap tick
+        updateNotificationUI();
+        // Picu toast & re-render daftar jika ada tugas yang baru jadi overdue
+        checkAndTriggerOverdueToastNotifications();
+        // Re-render daftar tugas agar urutan overdue selalu up-to-date
+        renderTasks();
+      }, 5000);
 
       // Close modal on backdrop click
       document.querySelectorAll('.modal-backdrop').forEach(modal => {
         modal.addEventListener('click', (e) => {
           if (e.target === modal) {
             modal.style.display = 'none';
+            if (modal.id === 'fcDeckModal') {
+              cancelEditFlashcard();
+            }
           }
         });
       });
