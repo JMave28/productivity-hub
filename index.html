@@ -79,18 +79,21 @@
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background-color: var(--c-bg-outside);
       color: var(--c-text-main);
-      height: 100vh;
-      overflow: hidden;
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
       display: flex;
       justify-content: center;
       align-items: flex-start;
-      margin: 0;
-      padding: 0;
     }
 
+    /* ============================================================
+       KONTAINER UTAMA: Mobile-First, dikunci seukuran layar HP
+       ============================================================ */
     .smartphone-wrapper {
       width: 100%;
-      max-width: 420px;
+      max-width: 430px;          /* lebar standar smartphone modern */
+      min-height: 100vh;
       height: 100vh;
       background-color: var(--c-bg-app);
       display: flex;
@@ -98,26 +101,50 @@
       position: relative;
       overflow: hidden;
       margin: 0 auto;
-      padding: 0;
+      /* box-sizing sudah global border-box */
     }
 
-    @media (min-width: 640px) {
+    /* ---- DESKTOP: tampil sebagai bingkai HP di tengah layar ---- */
+    @media (min-width: 481px) {
       body {
-        padding: 24px 0;
         background-color: var(--c-bg-outside);
         background-image: radial-gradient(#B7D2DC 1px, transparent 1px);
         background-size: 24px 24px;
-        align-items: center;
+        padding: 20px 0;           /* margin atas-bawah agar card tidak nempel pinggir */
+        align-items: flex-start;
+        overflow-y: auto;          /* page bisa scroll jika layar terlalu pendek */
       }
 
       .smartphone-wrapper {
-        width: 420px;
-        height: min(850px, calc(100vh - 48px));
-        border-radius: 44px;
-        border: 8px solid #1a2e3b;
-        box-shadow: 0 40px 80px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.06);
+        width: 430px;              /* lebar tetap seukuran HP */
+        height: auto;
+        min-height: calc(100vh - 40px);
+        max-height: none;
+        border-radius: 24px;       /* sudut melengkung halus ala bingkai HP */
+        box-shadow:
+          0 24px 60px rgba(0, 0, 0, 0.22),
+          0 0 0 1px rgba(107, 140, 154, 0.18);
         overflow: hidden;
         flex-shrink: 0;
+      }
+    }
+
+    /* ---- HP ASLI (≤480px): fullscreen, tanpa sisa ruang ---- */
+    @media (max-width: 480px) {
+      body {
+        padding: 0;
+        background: var(--c-bg-app); /* tidak ada dotted background */
+        overflow: hidden;            /* biarkan app-content yang scroll */
+      }
+
+      .smartphone-wrapper {
+        max-width: 100%;            /* memenuhi seluruh lebar layar HP */
+        width: 100%;
+        height: 100vh;
+        min-height: 100vh;
+        border-radius: 0;           /* tidak ada sudut melengkung di HP nyata */
+        box-shadow: none;
+        margin: 0;
       }
     }
 
